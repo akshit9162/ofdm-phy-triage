@@ -1,0 +1,122 @@
+{
+  "suite_size": 48,
+  "history_builds_per_hypothesis": 60,
+  "eval_builds": 350,
+  "stop_posterior": 0.99,
+  "policies": {
+    "full": {
+      "accuracy": 0.9714,
+      "mean_tests": 48.0,
+      "median_tests": 48.0,
+      "p90_tests": 48.0,
+      "missed_bug_rate": 0.0333,
+      "false_alarm_rate": 0.0,
+      "per_hypothesis": {
+        "none": {
+          "accuracy": 1.0,
+          "mean_tests": 48.0
+        },
+        "cfo_not_corrected": {
+          "accuracy": 0.88,
+          "mean_tests": 48.0
+        },
+        "stale_channel_estimate": {
+          "accuracy": 1.0,
+          "mean_tests": 48.0
+        },
+        "timing_late": {
+          "accuracy": 1.0,
+          "mean_tests": 48.0
+        },
+        "pa_clipping": {
+          "accuracy": 0.98,
+          "mean_tests": 48.0
+        },
+        "iq_imbalance": {
+          "accuracy": 1.0,
+          "mean_tests": 48.0
+        },
+        "phase_noise": {
+          "accuracy": 0.94,
+          "mean_tests": 48.0
+        }
+      }
+    },
+    "random": {
+      "accuracy": 0.9686,
+      "mean_tests": 3.85,
+      "median_tests": 3.0,
+      "p90_tests": 7.0,
+      "missed_bug_rate": 0.0367,
+      "false_alarm_rate": 0.0,
+      "per_hypothesis": {
+        "none": {
+          "accuracy": 1.0,
+          "mean_tests": 5.8
+        },
+        "cfo_not_corrected": {
+          "accuracy": 0.88,
+          "mean_tests": 4.1
+        },
+        "stale_channel_estimate": {
+          "accuracy": 1.0,
+          "mean_tests": 2.6
+        },
+        "timing_late": {
+          "accuracy": 1.0,
+          "mean_tests": 2.4
+        },
+        "pa_clipping": {
+          "accuracy": 1.0,
+          "mean_tests": 4.0
+        },
+        "iq_imbalance": {
+          "accuracy": 0.98,
+          "mean_tests": 4.0
+        },
+        "phase_noise": {
+          "accuracy": 0.92,
+          "mean_tests": 4.1
+        }
+      }
+    },
+    "infogain": {
+      "accuracy": 0.9829,
+      "mean_tests": 2.17,
+      "median_tests": 2.0,
+      "p90_tests": 3.0,
+      "missed_bug_rate": 0.02,
+      "false_alarm_rate": 0.0,
+      "per_hypothesis": {
+        "none": {
+          "accuracy": 1.0,
+          "mean_tests": 2.8
+        },
+        "cfo_not_corrected": {
+          "accuracy": 0.94,
+          "mean_tests": 2.1
+        },
+        "stale_channel_estimate": {
+          "accuracy": 1.0,
+          "mean_tests": 2.0
+        },
+        "timing_late": {
+          "accuracy": 0.98,
+          "mean_tests": 2.0
+        },
+        "pa_clipping": {
+          "accuracy": 1.0,
+          "mean_tests": 2.0
+        },
+        "iq_imbalance": {
+          "accuracy": 1.0,
+          "mean_tests": 2.0
+        },
+        "phase_noise": {
+          "accuracy": 0.96,
+          "mean_tests": 2.3
+        }
+      }
+    }
+  }
+}

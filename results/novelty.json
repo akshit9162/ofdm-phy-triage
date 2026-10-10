@@ -1,0 +1,191 @@
+{
+  "cfo_not_corrected": {
+    "n_novel": 162,
+    "n_known": 1392,
+    "classifier_calls_it": "timing_late",
+    "confidence": {
+      "auroc": 0.992,
+      "detected": 0.981,
+      "false_alarm": 0.066
+    },
+    "isolation_forest": {
+      "auroc": 0.897,
+      "detected": 0.481,
+      "false_alarm": 0.076
+    },
+    "knn_distance": {
+      "auroc": 0.978,
+      "detected": 0.926,
+      "false_alarm": 0.05
+    },
+    "either": {
+      "detected": 0.981,
+      "false_alarm": 0.068
+    }
+  },
+  "stale_channel_estimate": {
+    "n_novel": 223,
+    "n_known": 1331,
+    "classifier_calls_it": "pa_clipping",
+    "confidence": {
+      "auroc": 0.802,
+      "detected": 0.278,
+      "false_alarm": 0.054
+    },
+    "isolation_forest": {
+      "auroc": 0.97,
+      "detected": 0.906,
+      "false_alarm": 0.078
+    },
+    "knn_distance": {
+      "auroc": 0.997,
+      "detected": 0.991,
+      "false_alarm": 0.057
+    },
+    "either": {
+      "detected": 0.982,
+      "false_alarm": 0.053
+    }
+  },
+  "timing_late": {
+    "n_novel": 208,
+    "n_known": 1346,
+    "classifier_calls_it": "low_snr",
+    "confidence": {
+      "auroc": 0.974,
+      "detected": 0.875,
+      "false_alarm": 0.046
+    },
+    "isolation_forest": {
+      "auroc": 0.883,
+      "detected": 0.394,
+      "false_alarm": 0.075
+    },
+    "knn_distance": {
+      "auroc": 0.995,
+      "detected": 0.986,
+      "false_alarm": 0.053
+    },
+    "either": {
+      "detected": 0.99,
+      "false_alarm": 0.057
+    }
+  },
+  "pa_clipping": {
+    "n_novel": 146,
+    "n_known": 1408,
+    "classifier_calls_it": "stale_channel_estimate",
+    "confidence": {
+      "auroc": 0.922,
+      "detected": 0.712,
+      "false_alarm": 0.053
+    },
+    "isolation_forest": {
+      "auroc": 0.385,
+      "detected": 0.0,
+      "false_alarm": 0.077
+    },
+    "knn_distance": {
+      "auroc": 0.782,
+      "detected": 0.068,
+      "false_alarm": 0.046
+    },
+    "either": {
+      "detected": 0.568,
+      "false_alarm": 0.05
+    }
+  },
+  "iq_imbalance": {
+    "n_novel": 151,
+    "n_known": 1403,
+    "classifier_calls_it": "stale_channel_estimate",
+    "confidence": {
+      "auroc": 0.926,
+      "detected": 0.682,
+      "false_alarm": 0.052
+    },
+    "isolation_forest": {
+      "auroc": 0.873,
+      "detected": 0.298,
+      "false_alarm": 0.058
+    },
+    "knn_distance": {
+      "auroc": 0.996,
+      "detected": 1.0,
+      "false_alarm": 0.046
+    },
+    "either": {
+      "detected": 1.0,
+      "false_alarm": 0.046
+    }
+  },
+  "phase_noise": {
+    "n_novel": 105,
+    "n_known": 1449,
+    "classifier_calls_it": "cfo_not_corrected",
+    "confidence": {
+      "auroc": 0.979,
+      "detected": 0.876,
+      "false_alarm": 0.045
+    },
+    "isolation_forest": {
+      "auroc": 0.734,
+      "detected": 0.124,
+      "false_alarm": 0.072
+    },
+    "knn_distance": {
+      "auroc": 0.941,
+      "detected": 0.638,
+      "false_alarm": 0.049
+    },
+    "either": {
+      "detected": 0.867,
+      "false_alarm": 0.05
+    }
+  },
+  "delay_spread_exceeds_cp": {
+    "n_novel": 158,
+    "n_known": 1396,
+    "classifier_calls_it": "low_snr",
+    "confidence": {
+      "auroc": 0.932,
+      "detected": 0.854,
+      "false_alarm": 0.042
+    },
+    "isolation_forest": {
+      "auroc": 0.726,
+      "detected": 0.076,
+      "false_alarm": 0.069
+    },
+    "knn_distance": {
+      "auroc": 0.97,
+      "detected": 0.835,
+      "false_alarm": 0.049
+    },
+    "either": {
+      "detected": 0.88,
+      "false_alarm": 0.045
+    }
+  },
+  "mean_over_held_out_faults": {
+    "confidence": {
+      "auroc": 0.932,
+      "detected": 0.751,
+      "false_alarm": 0.051
+    },
+    "isolation_forest": {
+      "auroc": 0.781,
+      "detected": 0.326,
+      "false_alarm": 0.072
+    },
+    "knn_distance": {
+      "auroc": 0.951,
+      "detected": 0.778,
+      "false_alarm": 0.05
+    },
+    "either": {
+      "detected": 0.895,
+      "false_alarm": 0.053
+    }
+  }
+}

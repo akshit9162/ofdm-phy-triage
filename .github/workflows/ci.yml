@@ -30,6 +30,11 @@ jobs:
       - name: Train + evaluate triage on an independent campaign
         run: python -m scripts.evaluate runs/train runs/test results-ci
 
+      - name: Adaptive test selection + unknown-fault detection (smoke)
+        run: |
+          python -m scripts.test_selection runs/train results-ci 8 6
+          python -m scripts.novelty runs/train runs/test results-ci
+
       - name: Auto-triage report
         run: |
           python -m scripts.triage_report runs/train runs/test results-ci/triage_report.md

@@ -36,6 +36,41 @@ single root cause**.
   10% of all failures, 89% are multi-cause. But deferring that 10% to a human catches only **23%**
   of the multi-cause cases.
 
+## Adaptive test selection
+
+A new build is either clean or carries one DUT bug at an unknown severity. The full
+regression suite is 48 configs (4 modulations × 3 channels × 4 SNR margins). Instead of
+running all of them, `ofdmtriage/selection.py` keeps a posterior over "which bug, if any",
+runs the test with the **largest expected information gain**, updates the posterior from the
+outcome (PASS, or the triage model's root cause), and stops at 99% confidence.
+Likelihoods come from 60 simulated history builds per hypothesis; the evaluation uses 350 fresh builds.
+
+| Policy | Tests run (mean / p90) | Diagnosis accuracy | Missed bug | False alarm |
+|---|---:|---:|---:|---:|
+| Full suite | 48 / 48 | 97.1% | 3.3% | 0% |
+| Random order, same stop rule | 3.9 / 7 | 96.9% | 3.7% | 0% |
+| **Information-gain order** | **2.2 / 3** | **98.3%** | 2.0% | 0% |
+
+Running the full suite is slightly *less* accurate: the posterior treats tests as independent, so
+48 correlated results make it overconfident. The missed bugs are mild-severity ones that pass most tests.
+
+## Unknown failure types
+
+Leave-one-fault-out: train on every root cause but one, then check whether the held-out
+fault's failures in the test campaign get flagged as "new". Thresholds are set on held-out
+training failures at a 5% false-alarm rate. Mean over the 7 held-out faults:
+
+| Novelty score | AUROC | Detected | False alarm |
+|---|---:|---:|---:|
+| Isolation Forest | 0.781 | 32.6% | 7.2% |
+| Classifier confidence | 0.932 | 75.1% | 5.1% |
+| kNN distance to training failures | 0.951 | 77.8% | 5.0% |
+| **Either (confidence OR kNN, 2.5% each)** | | **89.5%** | 5.3% |
+
+The two good scores miss different faults (kNN misses clipping, confidence misses stale estimates),
+so their union does best. PA clipping is the hardest to spot as new (57%): it looks like a milder
+version of faults the model already knows.
+
 ## The eight root causes
 
 | Label | What was injected | Signature the logs expose |
@@ -60,8 +95,9 @@ ofdmtriage/phy.py       Gray QAM, 802.11a framing (64-FFT, CP 16, 48 data + 4 pi
 ofdmtriage/channel.py   multipath (exponential PDP Rayleigh), CFO, AWGN, clipping, IQ imbalance, phase noise
 ofdmtriage/validate.py  test cases, fault injection, measurements, log writer, counterfactual labels
 ofdmtriage/triage.py    log parser, 17 physics features, rule triage, gradient-boosted triage
-scripts/                campaign runner, evaluation, triage report, BER-vs-theory figure
-tests/                  31 pytest tests (BER vs theory, LS loss, ISI floor, log round-trip, each fault)
+ofdmtriage/selection.py Bayesian information-gain test selection over a 48-config regression suite
+scripts/                campaign, evaluation, triage report, test selection, novelty detection, BER figure
+tests/                  33 pytest tests (BER vs theory, LS loss, ISI floor, log round-trip, each fault)
 ```
 
 ## Run it
@@ -74,6 +110,8 @@ python -m scripts.campaign 4000 runs/test 1
 python -m scripts.evaluate runs/main runs/test results
 python -m scripts.triage_report runs/main runs/test results/triage_report.md
 python -m scripts.ber_curves results/ber_awgn.png
+python -m scripts.test_selection runs/main results 60 50   # ~7 min
+python -m scripts.novelty runs/main runs/test results
 ```
 
 CI runs the unit tests, a smaller campaign, evaluation and the triage report on every push, and

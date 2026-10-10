@@ -34,6 +34,23 @@ class TestCase:
     seed: int = 0
 
 
+def sample_severity(fault, rng):
+    """Draw a fault's parameter; units depend on the fault."""
+    if fault == "cfo_not_corrected":
+        return float(rng.uniform(0.01, 0.15) * rng.choice([-1, 1]))  # uncorrected CFO, subcarrier spacings
+    if fault == "stale_channel_estimate":
+        return float(rng.uniform(0.0, 0.95))                          # correlation with the true channel
+    if fault == "timing_late":
+        return float(rng.integers(1, 9))                              # samples past the CP
+    if fault == "pa_clipping":
+        return float(rng.uniform(-2.0, 4.0))                          # clip level above RMS, dB
+    if fault == "iq_imbalance":
+        return float(rng.uniform(1.0, 4.0))                           # gain imbalance dB (phase = 2.5x deg)
+    if fault == "phase_noise":
+        return float(rng.uniform(0.5, 3.5))                           # deg rms per sample
+    return 0.0
+
+
 def sample_case(i, rng):
     """Random test case for a campaign: ~30% fault-free, otherwise one fault."""
     mod = rng.choice(list(EVM_LIMIT_DB))
@@ -41,20 +58,9 @@ def sample_case(i, rng):
     snr = float(np.round(rng.uniform(need - 2, need + 24), 1))
     profile = str(rng.choice(["flat", "short", "medium"]))
     fault = None if rng.random() < 0.3 else str(rng.choice(FAULTS))
-    sev = 0.0
-    if fault == "cfo_not_corrected":
-        sev = float(rng.uniform(0.01, 0.15) * rng.choice([-1, 1]))   # uncorrected CFO, subcarrier spacings
-    elif fault == "stale_channel_estimate":
-        sev = float(rng.uniform(0.0, 0.95))                           # correlation with the true channel
+    sev = sample_severity(fault, rng)
+    if fault == "stale_channel_estimate":
         profile = str(rng.choice(["short", "medium"]))
-    elif fault == "timing_late":
-        sev = float(rng.integers(1, 9))                               # samples past the CP
-    elif fault == "pa_clipping":
-        sev = float(rng.uniform(-2.0, 4.0))                           # clip level above RMS, dB
-    elif fault == "iq_imbalance":
-        sev = float(rng.uniform(1.0, 4.0))                            # gain imbalance dB (phase = 2.5x deg)
-    elif fault == "phase_noise":
-        sev = float(rng.uniform(0.5, 3.5))                            # deg rms per sample
     elif fault == "delay_spread_exceeds_cp":
         profile = "long"
     return TestCase(f"tc_{i:05d}", str(mod), snr, profile,
