@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: PHY + triage unit tests
+        run: python -m pytest -q
+
+      - name: Validation campaign (smoke)
+        run: |
+          python -m scripts.campaign 1500 runs/train 0
+          python -m scripts.campaign 600 runs/test 1
+
+      - name: Train + evaluate triage on an independent campaign
+        run: python -m scripts.evaluate runs/train runs/test results-ci
+
+      - name: Auto-triage report
+        run: |
+          python -m scripts.triage_report runs/train runs/test results-ci/triage_report.md
+          cat results-ci/triage_report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: triage-results
+          path: results-ci/

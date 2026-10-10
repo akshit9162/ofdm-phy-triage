@@ -1,0 +1,116 @@
+{
+  "train_failures": 5214,
+  "train_ambiguous": 2058,
+  "test_failures": 2574,
+  "test_ambiguous": 1020,
+  "rules": {
+    "n": 1554,
+    "accuracy": 0.8488,
+    "macro_f1": 0.8394,
+    "recall": {
+      "low_snr": 0.751,
+      "cfo_not_corrected": 0.901,
+      "stale_channel_estimate": 0.901,
+      "timing_late": 0.971,
+      "pa_clipping": 0.74,
+      "iq_imbalance": 1.0,
+      "phase_noise": 0.514,
+      "delay_spread_exceeds_cp": 0.987
+    }
+  },
+  "ml": {
+    "n": 1554,
+    "accuracy": 0.9923,
+    "macro_f1": 0.9924,
+    "recall": {
+      "low_snr": 0.998,
+      "cfo_not_corrected": 1.0,
+      "stale_channel_estimate": 0.996,
+      "timing_late": 0.986,
+      "pa_clipping": 0.966,
+      "iq_imbalance": 1.0,
+      "phase_noise": 0.981,
+      "delay_spread_exceeds_cp": 1.0
+    }
+  },
+  "rule_thresholds": {
+    "pilot_slope_deg > -> cfo_not_corrected": 20.681,
+    "cir_precursor_frac > -> timing_late": 0.2498,
+    "cir_beyond_cp_frac > -> delay_spread_exceeds_cp": 0.0813,
+    "image_corr > -> iq_imbalance": 0.1784,
+    "excess_sc_std_db > -> stale_channel_estimate": 4.77,
+    "radial_slope < -> pa_clipping": -0.0589,
+    "gain < -> pa_clipping": 0.9193,
+    "pilot_resid_std_deg > -> phase_noise": 16.4197,
+    "excess_db < -> low_snr": 8.2422
+  },
+  "heldout_64qam": {
+    "ml": {
+      "n": 541,
+      "accuracy": 0.9445,
+      "macro_f1": 0.9386,
+      "recall": {
+        "low_snr": 1.0,
+        "cfo_not_corrected": 1.0,
+        "stale_channel_estimate": 1.0,
+        "timing_late": 0.955,
+        "pa_clipping": 0.578,
+        "iq_imbalance": 1.0,
+        "phase_noise": 1.0,
+        "delay_spread_exceeds_cp": 1.0
+      }
+    },
+    "rules": {
+      "n": 541,
+      "accuracy": 0.8595,
+      "macro_f1": 0.8437,
+      "recall": {
+        "low_snr": 0.98,
+        "cfo_not_corrected": 0.829,
+        "stale_channel_estimate": 0.931,
+        "timing_late": 0.955,
+        "pa_clipping": 0.531,
+        "iq_imbalance": 1.0,
+        "phase_noise": 0.528,
+        "delay_spread_exceeds_cp": 1.0
+      }
+    }
+  },
+  "abstention": [
+    {
+      "coverage": 1.0,
+      "threshold": 0.517,
+      "accuracy": 0.9923
+    },
+    {
+      "coverage": 0.95,
+      "threshold": 1.0,
+      "accuracy": 0.9966
+    },
+    {
+      "coverage": 0.9,
+      "threshold": 1.0,
+      "accuracy": 0.9986
+    },
+    {
+      "coverage": 0.85,
+      "threshold": 1.0,
+      "accuracy": 1.0
+    },
+    {
+      "coverage": 0.8,
+      "threshold": 1.0,
+      "accuracy": 1.0
+    }
+  ],
+  "ambiguous": {
+    "n": 1020,
+    "mean_confidence": 0.971,
+    "clean_mean_confidence": 0.998,
+    "share_confidence_ge_0.9": 0.913,
+    "predicted_injected_fault": 0.671,
+    "predicted_low_snr": 0.324,
+    "defer_10pct_share_ambiguous": 0.891,
+    "defer_10pct_ambiguous_caught": 0.225
+  }
+}
